@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
-import { ScrollView, View, Text, Alert, useColorScheme } from 'react-native';
+import { ScrollView, View, Text, useColorScheme } from 'react-native';
+import { Alert } from '../../utils/alert';
 import { useFocusEffect } from '@react-navigation/native';
 import ScreenContainer from '../../components/ScreenContainer';
 import SectionCard from '../../components/SectionCard';

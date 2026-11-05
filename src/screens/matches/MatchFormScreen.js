@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { ScrollView, View, Text, Alert, BackHandler, KeyboardAvoidingView, Platform, useWindowDimensions } from 'react-native';
+import { ScrollView, View, Text, BackHandler, KeyboardAvoidingView, Platform, useWindowDimensions } from 'react-native';
+import { Alert } from '../../utils/alert';
 import TextField from '../../components/TextField';
 import ChipGroup from '../../components/ChipGroup';
 import AppButton from '../../components/AppButton';

@@ -1,4 +1,4 @@
-import * as SecureStore from 'expo-secure-store';
+import * as SecureStore from './secureStorage';
 import { request } from './httpClient';
 import { ENDPOINTS, SECURE_KEYS } from '../constants/config';
 import { HttpError } from '../utils/errors';
@@ -34,15 +34,15 @@ export async function fetchProfile(token) {
 }
 
 export async function saveSession({ token, refreshToken, user }) {
-  await SecureStore.setItemAsync(SECURE_KEYS.token, token);
-  if (refreshToken) await SecureStore.setItemAsync(SECURE_KEYS.refreshToken, refreshToken);
-  await SecureStore.setItemAsync(SECURE_KEYS.user, JSON.stringify(user));
+  await SecureStore.setItem(SECURE_KEYS.token, token);
+  if (refreshToken) await SecureStore.setItem(SECURE_KEYS.refreshToken, refreshToken);
+  await SecureStore.setItem(SECURE_KEYS.user, JSON.stringify(user));
 }
 
 export async function loadSession() {
-  const token = await SecureStore.getItemAsync(SECURE_KEYS.token);
+  const token = await SecureStore.getItem(SECURE_KEYS.token);
   if (!token) return null;
-  const rawUser = await SecureStore.getItemAsync(SECURE_KEYS.user);
+  const rawUser = await SecureStore.getItem(SECURE_KEYS.user);
   let user = null;
   try {
     user = rawUser ? JSON.parse(rawUser) : null;
@@ -53,7 +53,7 @@ export async function loadSession() {
 }
 
 export async function clearSession() {
-  await SecureStore.deleteItemAsync(SECURE_KEYS.token);
-  await SecureStore.deleteItemAsync(SECURE_KEYS.refreshToken);
-  await SecureStore.deleteItemAsync(SECURE_KEYS.user);
+  await SecureStore.deleteItem(SECURE_KEYS.token);
+  await SecureStore.deleteItem(SECURE_KEYS.refreshToken);
+  await SecureStore.deleteItem(SECURE_KEYS.user);
 }

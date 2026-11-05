@@ -1,21 +1,37 @@
+import { Platform } from 'react-native';
 import * as SQLite from 'expo-sqlite';
 import { DATABASE_NAME } from '../constants/config';
 
 let dbPromise = null;
 
+// Abre la base y crea el esquema UNA sola vez. Cualquier consulta espera a que
+// la tabla exista, así ninguna pantalla puede adelantarse (antes salía
+// "no such table: matches" cuando una pantalla consultaba demasiado pronto).
 export function getDatabase() {
   if (!dbPromise) {
-    dbPromise = SQLite.openDatabaseAsync(DATABASE_NAME);
+    dbPromise = (async () => {
+      const db = await SQLite.openDatabaseAsync(DATABASE_NAME);
+      await createSchema(db);
+      return db;
+    })().catch((error) => {
+      dbPromise = null; // permite reintentar si falló al abrir
+      throw error;
+    });
   }
   return dbPromise;
 }
 
-// Esquema local. Se separa el id local (clave primaria) del remote_id de la API.
 export async function initDatabase() {
-  const db = await getDatabase();
-  await db.execAsync(`
-    PRAGMA journal_mode = WAL;
+  return getDatabase();
+}
 
+// Esquema local. Se separa el id local (clave primaria) del remote_id de la API.
+async function createSchema(db) {
+  // WAL mejora el rendimiento en el celular; en web (WebAssembly) no aplica.
+  if (Platform.OS !== 'web') {
+    await db.execAsync('PRAGMA journal_mode = WAL;');
+  }
+  await db.execAsync(`
     CREATE TABLE IF NOT EXISTS matches (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       remote_id TEXT,
@@ -45,12 +61,10 @@ export async function initDatabase() {
     CREATE INDEX IF NOT EXISTS idx_matches_remote ON matches (owner, remote_id);
     CREATE INDEX IF NOT EXISTS idx_matches_status ON matches (owner, sync_status);
   `);
-  return db;
 }
 
 export async function resetDatabase() {
   const db = await getDatabase();
   await db.execAsync('DROP TABLE IF EXISTS matches;');
-  dbPromise = null;
-  await initDatabase();
+  await createSchema(db);
 }

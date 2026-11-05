@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, Alert } from 'react-native';
+import { View, Text } from 'react-native';
+import { Alert } from '../utils/alert';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import TabsNavigator from './TabsNavigator';
 import SettingsScreen from '../screens/drawer/SettingsScreen';
