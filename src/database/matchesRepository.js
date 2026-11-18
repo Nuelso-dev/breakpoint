@@ -260,6 +260,13 @@ export async function getStatsSummary(owner) {
     [owner]
   );
 
+  // Marcadores para el análisis por sets (se desglosan en utils/sets.js).
+  const marcadores = await db.getAllAsync(
+    `SELECT marcador FROM matches
+     WHERE owner = ? AND ${VISIBLE} AND marcador <> ''`,
+    [owner]
+  );
+
   return {
     total: totals?.total ?? 0,
     victorias: totals?.victorias ?? 0,
@@ -274,6 +281,7 @@ export async function getStatsSummary(owner) {
       promedioPrimerSaque: Math.round(r.promedio_primer_saque ?? 0),
     })),
     patrones,
+    marcadores: marcadores.map((r) => r.marcador),
   };
 }
 

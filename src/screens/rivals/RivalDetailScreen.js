@@ -5,6 +5,8 @@ import ScreenContainer from '../../components/ScreenContainer';
 import MatchCard from '../../components/MatchCard';
 import SectionCard from '../../components/SectionCard';
 import Loading from '../../components/Loading';
+import SetsSummary from '../../components/SetsSummary';
+import { summarizeSets } from '../../utils/sets';
 import { useMatches } from '../../context/MatchesContext';
 import { useAppTheme } from '../../hooks/useAppTheme';
 
@@ -55,6 +57,10 @@ export default function RivalDetailScreen({ route, navigation }) {
               <Text style={{ color: palette.text, fontWeight: '600' }}>{m.patronRival || 'sin registrar'}</Text>.
             </Text>
           ))}
+        </SectionCard>
+
+        <SectionCard title="Sets contra este rival" subtitle="Cómo se reparten los sets y los tiebreaks">
+          <SetsSummary resumen={summarizeSets(matches)} />
         </SectionCard>
 
         <Text className="mb-2 mt-1 text-[15px] font-bold" style={{ color: palette.text }}>

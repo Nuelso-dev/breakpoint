@@ -6,6 +6,8 @@ import SectionCard from '../../components/SectionCard';
 import StatBar from '../../components/StatBar';
 import EmptyState from '../../components/EmptyState';
 import Loading from '../../components/Loading';
+import SetsSummary from '../../components/SetsSummary';
+import { summarizeSets } from '../../utils/sets';
 import { useMatches } from '../../context/MatchesContext';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { percent, labelOf } from '../../utils/format';
@@ -109,6 +111,10 @@ export default function StatsScreen({ navigation }) {
               value={percent(row.victorias, row.total)}
             />
           ))}
+        </SectionCard>
+
+        <SectionCard title="Análisis por sets" subtitle="Sets, tiebreaks y remontadas">
+          <SetsSummary resumen={summarizeSets(summary.marcadores ?? [])} />
         </SectionCard>
 
         <SectionCard title="Balance de golpes" subtitle="Winners contra errores no forzados">
