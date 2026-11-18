@@ -91,3 +91,14 @@ Los campos de sincronización (`sync_status`, `pending_action`, `remote_id`, etc
 existen en la copia local del dispositivo, por eso no están en el servidor.
 
 Todas las tablas tienen RLS: cada jugador solo ve y modifica sus propios datos.
+
+## Datos de ejemplo (`seed.sql`)
+
+`seed.sql` carga los mismos datos que la app muestra con la API de prueba:
+
+- 1 perfil: el usuario demo `emilys` de `LoginScreen.js` (sin contraseña: solo es dueño de los datos).
+- 12 rivales y 10 torneos: las listas `RIVALES` y `TORNEOS` de `matchMapper.js`.
+- 24 partidos: los que `matchMapper.js` deriva de los posts 1 a 24 de DummyJSON (`REMOTE_PAGE_LIMIT`).
+- 58 sets: el marcador de cada partido desglosado con `src/utils/sets.js`.
+
+Se puede ejecutar varias veces sin duplicar registros.
