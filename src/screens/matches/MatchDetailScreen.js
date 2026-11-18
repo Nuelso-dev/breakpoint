@@ -7,6 +7,7 @@ import SectionCard from '../../components/SectionCard';
 import StatBar from '../../components/StatBar';
 import AppButton from '../../components/AppButton';
 import SyncBadge from '../../components/SyncBadge';
+import SetsScoreboard from '../../components/SetsScoreboard';
 import ErrorView from '../../components/ErrorView';
 import Loading from '../../components/Loading';
 import { useMatches } from '../../context/MatchesContext';
@@ -150,6 +151,10 @@ export default function MatchDetailScreen({ route, navigation }) {
             </Text>
           </View>
         ) : null}
+
+        <SectionCard title="Set por set" subtitle="El marcador desglosado, como en la transmisión">
+          <SetsScoreboard marcador={match.marcador} rival={match.rival} />
+        </SectionCard>
 
         <SectionCard title="Rendimiento" subtitle="Lo que registraste durante el partido">
           <StatBar label="Primeros saques dentro" value={match.primerSaquePct} />
