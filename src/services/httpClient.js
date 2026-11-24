@@ -1,7 +1,7 @@
 import { API_BASE_URL, REQUEST_TIMEOUT_MS } from '../constants/config';
 import { HttpError, NetworkError, mapStatusToMessage } from '../utils/errors';
 
-// Cliente HTTP construido sobre fetch (Axios no está permitido en el taller).
+// Cliente HTTP construido sobre fetch nativo, sin librerías externas.
 export async function request(path, { method = 'GET', body, token, timeout } = {}) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeout ?? REQUEST_TIMEOUT_MS);
